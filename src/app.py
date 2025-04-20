@@ -24,11 +24,10 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
 # OAuth2 setup
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
-# In-memory database for teacher credentials
-teachers = {
-    "teacher1": "password1",
-    "teacher2": "password2"
-}
+# Load teacher credentials from JSON file
+teachers_file = current_dir / "teachers.json"
+with open(teachers_file, "r") as file:
+    teachers = json.load(file)
 
 # Token storage (for simplicity, not secure)
 active_tokens = set()
