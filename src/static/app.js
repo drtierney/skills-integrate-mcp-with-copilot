@@ -30,7 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${details.participants
                   .map(
                     (email) =>
-                      `<li><span class="participant-email">${email}</span><button class="delete-btn" data-activity="${name}" data-email="${email}">❌</button></li>`
+                      `<li><span class="participant-email">${email}</span><button class="delete-btn" data-activity="${name}" data-email="${email}">
+                      
+                      </button></li>`
                   )
                   .join("")}
               </ul>
@@ -153,6 +155,33 @@ document.addEventListener("DOMContentLoaded", () => {
       messageDiv.classList.remove("hidden");
       console.error("Error signing up:", error);
     }
+  });
+
+  // Add login functionality
+  async function login(username, password) {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      alert('Login successful!');
+      return result;
+    } else {
+      alert('Login failed!');
+      return null;
+    }
+  }
+
+  // Add event listener for login button
+  document.getElementById('login-button').addEventListener('click', async () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    await login(username, password);
   });
 
   // Initialize app
